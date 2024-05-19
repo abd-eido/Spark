@@ -1,0 +1,28 @@
+﻿@{ ViewData["Title"] = "Home"; }
+<style>
+    body {
+        height: 100%;
+        background: linear-gradient(0.25turn, #1A86AC, #139D9D,#06C38B);
+    }
+</style>
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 style="color:white" >Welcome to Spark</h1>
+        <p class="lead" style="color:white">
+            Unleash your creativity! Explore a vast collection of unique graduation projects. Get inspired, start yours today..
+        </p>
+        <p>
+            <a href="#" class="btn btn-primary my-2">Search Projects</a>
+        </p>
+    </div>
+</section>
+
+
+<div class="py-4 bg-light">
+    <div class="container">
+        <h3 class="h2">Top Projects</h3>
+        @await Component.InvokeAsync("TopProjects", new { count = 3})
+    </div>
+</div>
+

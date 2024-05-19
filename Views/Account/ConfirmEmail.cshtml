@@ -1,0 +1,54 @@
+﻿@model EmailConfirmModel
+@{
+    ViewData["Title"] = "Confirm email";
+}
+<style>
+    body {
+        height: 100%;
+        background: linear-gradient(0.25turn, #1A86AC, #139D9D,#06C38B);
+    }
+</style>
+
+<div class="container card" style=" background-color: #1B0035 !important; border-color: #1B0035 !important;">
+    <h3 class="display-4" style="color:white">Email Confirmation</h3>
+    <hr />
+    <div class="col-md-4">
+        @if (Model.EmailVerified == true)
+        {
+            <div class="alert alert-success" role="alert">
+                <p style="color:white">Your email has been verified successfully.</p>
+            </div>
+        }
+        else
+        {
+            if (Model.EmailSent)
+            {
+                <p style="color:white">Email sent on your registered email id.</p>
+            }
+
+            else
+            {
+                <p style="color:white">We have sent an email on your email id. Click on the link to login.</p>
+            }
+
+            <form asp-action="ConfirmEmail">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Email" style="color:white" />
+
+                <p style="color:white">Did not get any email of deleted by mistake?</p>
+                <div class="form-group">
+                    <input type="submit" value="Resend confirmation email" class="btn btn-primary" style="color:white" />
+                </div>
+            </form>
+        }
+    </div>
+</div>
+
+@*</div>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4">
+            </div>
+
+        </div>
+    </div>*@

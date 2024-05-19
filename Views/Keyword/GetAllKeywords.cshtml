@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "All keywords";
+}
+@model IEnumerable<KeywordModel>
+
+<style>
+    body {
+        height: 100%;
+        background: linear-gradient(0.25turn, #1A86AC, #139D9D,#06C38B);
+    }
+</style>
+<div class="container card">
+    <h3 class="display-4">All Keywords</h3>
+    <div class="row">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Keyword Content</th>
+                    <th scope="col">Project Id</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    var keyword = Model.ElementAt(i);
+                    var counter = i + 1;
+                    <tr>
+                        <th scope="row">@counter</th>
+                        <td>@keyword.KeywordContent</td>
+                        <td>@keyword.ProjectId</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

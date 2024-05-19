@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "All Offers";
+}
+@model IEnumerable<OfferModel>
+
+<style>
+    body {
+        height: 100%;
+        background: linear-gradient(0.25turn, #1A86AC, #139D9D,#06C38B);
+    }
+</style>
+<div class="container card" style=" background-color: #1B0035 !important; border-color: #1B0035 !important;">
+    <h3 class="display-4" style="color:white">All Offers</h3>
+    <div class="row">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col" style="color:white">#</th>
+                    <th scope="col" style="color:white">Inverstor Name</th>
+                    <th scope="col" style="color:white">Project Name</th>
+                    <th scope="col" style="color:white">Offer Desciption</th>
+                    <th scope="col" style="color:white">Amount</th>
+                    <th scope="col" style="color:white">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    var offer = Model.ElementAt(i);
+                    var counter = i + 1;
+                    <tr>
+                        <th scope="row" style="color:white">@counter</th>
+                        <td style="color:white"> @offer.CreatedBy</td>
+                        <td style="color:white">@offer.Project.Name</td>
+                        <td style="color:white">@offer.Desciption</td>
+                        <td style="color:white">@offer.Amount</td>
+                        <td style="color:white">@offer.OfferStatus</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

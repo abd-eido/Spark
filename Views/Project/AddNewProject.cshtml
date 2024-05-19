@@ -1,0 +1,72 @@
+﻿@using  Spark.Enums
+@model ProjectModel
+@{
+    ViewData["Title"] = "Add new project";
+}
+<style>
+    body {
+        height: 100%;
+        background: linear-gradient(0.25turn, #1A86AC, #139D9D,#06C38B);
+    }
+</style>
+
+<div class="container card" style=" background-color: #1B0035 !important; border-color: #1B0035 !important;">
+    <h3 class="display-4" style="color:white">Add new project</h3>
+    <hr />
+    @if (ViewBag.IsSuccess == true)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Congratulations</strong> You have added new project successfully. <br />
+            Click <a asp-controller="Project" asp-action="GetProject" asp-route-id="@ViewBag.Id">here</a> to view the details
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <form method="post" enctype="multipart/form-data" asp-action="AddNewProject" asp-controller="Project">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label" style="color:white"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Desciption" class="control-label" style="color:white"></label>
+            <input asp-for="Desciption" class="form-control" />
+            <span asp-validation-for="Desciption" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CoverPhoto" class="control-label" style="color:white"></label>
+            <div class="custom-file">
+                <input asp-for="CoverPhoto" class="custom-file-input" id="customFile">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+            <span asp-validation-for="CoverPhoto" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="GalleryFiles" class="control-label" style="color:white"></label>
+            <div class="custom-file">
+                <input asp-for="GalleryFiles" class="custom-file-input" id="customFile">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+            <span asp-validation-for="GalleryFiles" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ProjectPdf" class="control-label" style="color:white"></label>
+            <div class="custom-file">
+                <input asp-for="ProjectPdf" class="custom-file-input" id="customFile">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+            <span asp-validation-for="ProjectPdf" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Add Project" class="btn btn-primary" />
+        </div>
+    </form>
+</div>

@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "All Projects";
+}
+@model IEnumerable<ProjectModel>
+
+<style>
+    body {
+        height: 100%;
+        background: linear-gradient(0.25turn, #1A86AC, #139D9D,#06C38B);
+    }
+</style>
+
+<div class="container">
+    <h3 class="display-4" style="color:white">All projects</h3>
+    <hr />
+    <div class="row">
+        @foreach (var project in Model)
+        {
+            <div class="col-md-4">
+                <partial name="_projectThumbnail" model="@project" />
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,102 @@
+﻿@model Spark.Models.ApplicationUser
+
+@{ ViewData["Title"] = "Profile"; }
+
+<style>
+    body {
+        height: 100%;
+        background: linear-gradient(0.25turn, #1A86AC, #139D9D,#06C38B);
+    }
+</style>
+
+<div class="container">
+    @if (ViewBag.IsSuccess == true)
+    {
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Congratulations</strong> You have updated your profile successfully.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" style=" background-color: #1B0035 !important; border-color: #1B0035 !important;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 style="color:white">Your Profile</h4>
+                            <hr>
+                            <div class="circular-image">
+                                <div class="circular-image">
+                                    <img src="~/images/profile Image.jpg" alt="Profile Picture" />
+                                </div>
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form asp-action="Profile">
+                                <div class="form-group row">
+                                    <label asp-for="UserName" class="col-4 col-form-label" style="color:white"></label>
+                                    <div class="col-8">
+                                        <input asp-for="UserName" class="form-control" disabled />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label asp-for="FirstName" class="col-4 col-form-label" style="color:white"></label>
+                                    <div class="col-8">
+                                        <input asp-for="FirstName" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label asp-for="LastName" class="col-4 col-form-label" style="color:white"></label>
+                                    <div class="col-8">
+                                        <input asp-for="LastName" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label asp-for="UserType" class="col-4 col-form-label" style="color:white"></label>
+                                    <div class="col-8">
+                                        <input asp-for="UserType" class="form-control" disabled />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label asp-for="Email" class="col-4 col-form-label" style="color:white"></label>
+                                    <div class="col-8">
+                                        <input asp-for="Email" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label asp-for="MobileNumber" class="col-4 col-form-label" style="color:white"></label>
+                                    <div class="col-8">
+                                        <input asp-for="MobileNumber" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label asp-for="Degree" class="col-4 col-form-label" style="color:white"></label>
+                                    <div class="col-8">
+                                        <input asp-for="Degree" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                        <button name="submit" type="submit" class="btn btn-primary">Update My Profile</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

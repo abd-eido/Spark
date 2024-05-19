@@ -1,0 +1,274 @@
+﻿@model ProjectModel
+
+@{
+    ViewData["Title"] = "Project detail " + "Projects";
+}
+
+<style>
+    body {
+        height: 100%;
+        background: linear-gradient(0.25turn, #0fa37c, #1d9191, #0d6280);
+    }
+</style>
+
+<div class="container">
+    <h3 class="display-4">Project Details</h3>
+    @if (ViewBag.IsSuccess == true)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Congratulations</strong> @ViewBag.Message
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    <div class="row">
+        <div class="col-md-6">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+
+                    @for (int i = 0; i < Model.Gallery.Count(); i++)
+                    {
+                        <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="@(i==0 ? "active" : "") "></li>
+                    }
+                </ol>
+                <div class="carousel-inner">
+                    @for (int i = 0; i < Model.Gallery.Count(); i++)
+                    {
+                        <div class="@(i==0 ? "carousel-item active" : "carousel-item") ">
+                            <img class="d-block w-100" src="@Model.Gallery[i].URL" alt="@Model.Gallery[i].Name">
+                        </div>
+                    }
+
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6 card" style="background-color: #1B0035 !important">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 style="color:white">@Model.Name</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-primary">
+                    <span class="label label-primary">By: </span>
+                    <span class="monospaced">@Model.CreatedBy</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="description" style="color:white">
+                        @Model.Desciption
+                    </p>
+                </div>
+            </div>
+
+            <div class="row justify-content-between">
+                <div class="col-md-auto">
+                    <a class="btn btn-primary d-flex align-items-center" data-toggle="modal" data-target="#readMoreModal">
+                        <i class="fa-star fa-file-alt mr-2"></i> Read More
+                    </a>
+                </div>
+                @{ if (User.Claims.Count() != 0)
+                    {
+                        var userType = User.Claims.Where(x => x.Type == "UserType").FirstOrDefault().Value;
+
+                        if (userType == "Investor")
+                        {
+                            <div class="col-md-auto">
+                                <a class="btn btn-primary d-flex align-items-center" data-toggle="modal" data-target="#interestModal">
+                                    <i class="fas fa-star mr-2"></i> Interest
+                                </a>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+            <hr />
+            <ul class="list-group" style="padding-bottom:5px">
+                <li class="list-group-item" style="background-color: #1B0035; border-color: white">
+                    <span class="font-weight-bold" style="color:white">
+                        Kewwords
+                    </span>
+                    @foreach (var item in Model.Keywords)
+                    {
+                        <span style="color:white">-</span> <span style="color:white">@item.KeywordContent</span>
+                    }
+                </li>
+                <li class="list-group-item" style="display: inline-flex; align-items: center; background-color: #1B0035; border-color: white">
+                    <span class="font-weight-bold" style="color:white">Rating - </span>
+                    <div class="rate">
+                        <input type="radio" id="star5" name="rate" value="5" onclick="sendRating(5)" disabled="@Model.DisableRatings">
+                        <label for="star5" title="5 stars">5 stars</label>
+                        <input type="radio" id="star4" name="rate" value="4" onclick="sendRating(4)" disabled="@Model.DisableRatings">
+                        <label for="star4" title="4 stars">4 stars</label>
+                        <input type="radio" id="star3" name="rate" value="3" onclick="sendRating(3)" disabled="@Model.DisableRatings">
+                        <label for="star3" title="3 stars">3 stars</label>
+                        <input type="radio" id="star2" name="rate" value="2" onclick="sendRating(2)" disabled="@Model.DisableRatings">
+                        <label for="star2" title="2 stars">2 stars</label>
+                        <input type="radio" id="star1" name="rate" value="1" onclick="sendRating(1)" disabled="@Model.DisableRatings">
+                        <label for="star1" title="1 star">1 star</label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        @if (Model.Comments.Count() != 0)
+        {
+            foreach (var comment in Model.Comments)
+            {
+                <div class="card shadow-lg" style="height: 130px; width: 100%; margin-top: 5px; margin-bottom: 10px; background-color: #1B0035; border-color: #1B0035; border-radius: 5px">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-1">
+                                <img src="~/images/profile Image.jpg" class="img img-rounded img-fluid" alt="Profile Picture" />
+                            </div>
+                            <div class="col-10">
+                                <p>
+                                    <strong style="color:white">@comment.CreadtedBy</strong>
+                                </p>
+                                <div class="clearfix"> <p style="color:white">@comment.Comment</p></div>
+
+                            </div>
+                            <hr />
+                            <p class="text-secondary text-center">@comment.CreadtedAtToString()</p>
+                            <hr />
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div style="width: 100%; background-color: #1B0035;border-radius:5px " class="shadow-lg">
+                <form method="post" enctype="multipart/form-data" asp-action="AddComment" asp-controller="Project">
+                    <div class="card" style="width: 100%; margin-top: 5px; margin-bottom: 10px; background-color: #1B0035 ">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group d-flex align-items-center">
+                                        <label class="control-label" style="color:white"> Comment </label>
+                                        <input asp-for="@Model.Comment.Comment" class="form-control flex-grow-1" style="width: 90%" />
+                                        <span asp-validation-for="@Model.Comment.Comment" class="text-danger ml-2"></span>
+                                        <input type="submit" value="+" class="btn btn-primary ml-auto circle-button d-flex" />
+                                        <input type="hidden" asp-for="@Model.Id" value="@Model.Id" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        }
+
+        else
+        {
+            <div style="width:100%">
+                <form method="post" enctype="multipart/form-data" asp-action="AddComment" asp-controller="Project">
+                    <div class="card" style="width: 100%; margin-top:5px; margin-bottom: 10px;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group d-flex align-items-center">
+                                        <label class="control-label"> Comment </label>
+                                        <input asp-for="Comment.Comment" class="form-control flex-grow-1" style="width: 90%" />
+                                        <span asp-validation-for="Comment.Comment" class="text-danger ml-2"></span>
+                                        <input type="submit" value="+" class="btn btn-primary ml-auto circle-button d-flex" />
+                                        <input type="hidden" asp-for="Id" value="@Model.Id" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        }
+
+    </div>
+
+    <div class="modal fade" id="readMoreModal" tabindex="-1" role="dialog" aria-labelledby="readMoreModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <embed src="@Model.ProjectPdf" class="w-100" />
+                    <iframe src="@Model.ProjectPdfUrl" class="w-100"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success"><a href="@Model.ProjectPdfUrl" target="_blank">Open</a></button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="interestModal" tabindex="-1" role="dialog" aria-labelledby="interestModalModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" enctype="multipart/form-data" asp-action="SendOffer" asp-controller="Project">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group p-2">
+                        <label asp-for="Offer.Desciption" class="control-label">Description</label>
+                        <input asp-for="Offer.Desciption" class="form-control" />
+                        <span asp-validation-for="Offer.Desciption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group p-2">
+                        <label asp-for="Offer.Amount" class="control-label">Amount</label>
+                        <input type="number" asp-for="Offer.Amount" class="form-control" />
+                        <span asp-validation-for="Offer.Amount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group p-2">
+                        <input type="hidden" asp-for="Id" value="@Model.Id" />
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Send Offer</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr />
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var initialRating = @Model.Rating ?? 0;
+        var radioButton = document.getElementById("star" + initialRating);
+        radioButton.checked = true;
+    });
+
+    function sendRating(ratingValue) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/Project/RateProject");
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send(`ratingValue=${ratingValue}&projectId=${@Model.Id}`);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log("Rating submitted successfully!");
+            } else {
+                console.error("Error submitting rating:", xhr.statusText);
+            }
+        };
+    }
+</script>
+

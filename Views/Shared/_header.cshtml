@@ -1,0 +1,73 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration _configuration
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background-color: #1B0035 !important; border-color: #1B0035 !important">
+        <div class="container">
+            <a class="navbar-brand" href="/" style="color:white">
+                <img src="~/images/Logo.jpg" width="30" height="30" asp-append-version="true" />
+                @_configuration["AppName"]
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav">
+                    <partial name="_LoginInfo" />
+                </ul>
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index" style="color:white">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white">
+                            Projects
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="nav-link" asp-controller="project" asp-action="getallprojects">Projects</a>
+                            @{ if (User.Claims.Count() != 0)
+                                {
+                                    var userType = User.Claims.Where(x => x.Type == "UserType").FirstOrDefault().Value;
+
+                                    if (userType == "Student")
+                                    {
+
+                                        <a class="nav-link" asp-controller="project" asp-action="AddNewProject">Add New Project</a>
+                                    }
+                                }
+                            }
+                        </div>
+                    </li>
+
+                    @{ if (User.Claims.Count() != 0)
+                        {
+                            var userType = User.Claims.Where(x => x.Type == "UserType").FirstOrDefault().Value;
+
+                            if (userType == "Student")
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white">
+                                        Keywords
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="nav-link" asp-controller="keyword" asp-action="getallkeywords">Keywords</a>
+                                        <a class="nav-link" asp-controller="keyword" asp-action="addnewkeyword">Add New Keyword</a>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Offer" asp-action="GetAllOffers" style="color:white">Offers</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</header>

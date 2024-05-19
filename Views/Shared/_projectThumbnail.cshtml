@@ -1,0 +1,43 @@
+﻿@model ProjectModel
+
+<style>
+    body {
+        height: 100%;
+        background: linear-gradient(0.25turn, #1A86AC, #139D9D,#06C38B);
+    }
+</style>
+
+<div class="card mb-4 shadow-lg" style="background-color: #1B0035 !important;">
+    <img src="@(string.IsNullOrEmpty(Model.CoverImageUrl) ? "/images/noimage.png" : Model.CoverImageUrl)" class="img-thumbnail" />
+    <div class="card-body">
+        <h3 class="card-title" style="color:white">@(string.IsNullOrEmpty(Model.Name) ? "Name is not available" : Model.Name)</h3>
+        <div class="wrapper center-block">
+            <div class="panel panel-default">
+                <div class="panel-heading active" role="tab" id="heading@(Model.Id)">
+                    <h5 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse@(Model.Id)" aria-expanded="true" aria-controls="collapse@(Model.Id)" style="color:white">
+                            Description
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse@(Model.Id)" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading@(Model.Id)">
+                    <div class="panel-body">
+                        <p class="card-text" style="color:white">@(string.IsNullOrEmpty(Model.Desciption) ? "Description is not available" : Model.Desciption)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+                <a asp-route="projectDetailsRoute" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-secondary" style="background-color: #02C988; border-color: #02C988">View details</a>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                @foreach (var item in Model.Keywords)
+                {<div class="mb-4 shadow-sm alert alert-info" role="alert" style="padding:8px">@item.KeywordContent</div>}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="wrapper center-block"><div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"></div></div>
